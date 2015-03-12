@@ -1,0 +1,18 @@
+#!/bin/bash
+make ARCH=arm CROSS_COMPILE=/home/standa/Toolchains/arm-eabi-linaro-4.6.2/bin/arm-eabi- TARGET_PRODUCT=huawei82_wet_jb5 MTK_ROOT_CUSTOM=../mediatek/custom MTK_PATH_SOURCE=../mediatek/kernel MTK_PATH_PLATFORM=../mediatek/platform/mt6582/kernel ARCH_MTK_PLATFORM=mt6582
+FILE=arch/arm/boot/zImage
+
+if [ -f $FILE ];
+then
+mkdir output
+mkdir output/kernel
+mkdir output/system
+mkdir output/system/lib
+mkdir output/system/lib/modules
+cp arch/arm/boot/zImage output/kernel/zImage
+find . -name '*.ko' -exec cp {} output/system/lib/modules/  \;
+cd output
+zip -r --exclude=*zip* Flash.zip *
+else
+echo "Something went wrong"
+fi
